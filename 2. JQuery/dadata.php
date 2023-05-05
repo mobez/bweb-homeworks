@@ -158,15 +158,44 @@ class Dadata
 // За счёт этого не создаются новые сетевые соединения на каждый запрос,
 // а переиспользуется существующее.
 
-$token = "0c8b7d7788ff4d71d12e08ba8ea0dc772a065907";
-$secret = "940a6eb08da1765d18a14f478840eac34cbb771d";
+$token = "a0334f2b906868d9a15c7318d7d03906c4aab011";
+$secret = "f6b7736e99e55cdd73aff9ca0b099d63dd4e7329";
 
-$dadata = new Dadata($token, $secret);
-$dadata->init();
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+//$dadata = new Dadata($token, $secret);
+  if (isset($_POST['token']) && isset($_POST['secret'])){
+    $dadata = new Dadata(htmlspecialchars($_POST['token']), htmlspecialchars($_POST['secret']));
+  }else{
+    $dadata = new Dadata($token, $secret);
+  }
+
+  $dadata->init();
 
 // Стандартизовать ФИО
-$result = $dadata->clean("name", $_POST['user_name']." ".$_POST['user_second_name']." ".$_POST['user_last_name']);
+  $result = $dadata->clean("name", $_POST['user_name'] . " " . $_POST['user_second_name'] . " " . $_POST['user_last_name']);
 
-echo json_encode($result);
+  echo json_encode($result);
 
-$dadata->close();
+  $dadata->close();
+}elseif ($_SERVER['REQUEST_METHOD'] === 'GET'){
+  if (isset($_GET['token']) && isset($_GET['secret'])){
+    $dadata = new Dadata(htmlspecialchars($_GET['token']), htmlspecialchars($_GET['secret']));
+  }else{
+    $dadata = new Dadata($token, $secret);
+  }
+
+  $dadata->init();
+
+// Стандартизовать ФИО
+  $result = $dadata->clean("name", $_GET['user_name'] . " " . $_GET['user_second_name'] . " " . $_GET['user_last_name']);
+
+  echo json_encode($result);
+
+  $dadata->close();
+}else{
+  echo '<pre>';
+  print_r('Ошибка!!!');
+  print_r('Метод не может быть ' . $_SERVER['REQUEST_METHOD']);
+  echo '</pre>';
+}
