@@ -8,14 +8,16 @@
 	<script src="ajax_rest.js"></script>
 </head>
 <body>
-	<form action="" method="POST">
+	<div style="width: 350px; margin: 0 auto; padding-top: 50px">
+		<form action="" method="POST" style="display: flex; flex-flow: wrap;">
 
-		<strong>Укажите IP<span class="mf-req">*</span></strong><br>
-		<input type="text" name="ip" id="ip" value=""><br>
+			<strong style="width: 100%;">Укажите IP<span class="mf-req">*</span></strong><br>
+			<input type="text" name="ip" id="ip" value="" style="width: 60%;"><br>
 
-		<input type="submit" name="submit" id="submit" value="Отправить">
-	</form>
-	<div id="result"></div>
+			<input type="submit" name="submit" id="submit" value="Отправить" style="width: 35%;">
+		</form>
+		<div id="result"></div>
+	</div>
 </body>
 </html>
 
