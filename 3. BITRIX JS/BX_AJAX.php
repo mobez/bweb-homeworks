@@ -3,7 +3,7 @@
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
 //устанавливаем заголовок страницы
 $APPLICATION->SetTitle("AJAX");
-
+    //подключение ядра и одного расширения
    CJSCore::Init(array('ajax'));
    $sidAjax = 'testAjax';
 if(isset($_REQUEST['ajax_form']) && $_REQUEST['ajax_form'] == $sidAjax){
@@ -35,13 +35,13 @@ function DEMOResponse (data){
    BX("block").innerHTML = data.RESULT;
    BX.show(BX("block"));
    BX.hide(BX("process"));
-
+   //добавление события объекту 'block', обработчик DEMOUpdate
    BX.onCustomEvent(
       BX(BX("block")),
       'DEMOUpdate'
    );
 }
-
+//проверка загрузки DOM. Обязательная функция
 BX.ready(function(){
    /*
    BX.addCustomEvent(BX("block"), 'DEMOUpdate', function(){
@@ -50,13 +50,17 @@ BX.ready(function(){
    */
    BX.hide(BX("block"));
    BX.hide(BX("process"));
-   
+    /*
+    Устанавливает обработчик события на дочерние элементы узла,
+    удовлетворяющие заданным условиям
+    Добавления функцию элементу с классом 'css_ajax' при событие 'click' и искать элемент в body
+    */
     BX.bindDelegate(
       document.body, 'click', {className: 'css_ajax' },
       function(e){
          if(!e)
             e = window.event;
-         
+         //вызов функции DEMOLoad() при клике
          DEMOLoad();
          return BX.PreventDefault(e);
       }
